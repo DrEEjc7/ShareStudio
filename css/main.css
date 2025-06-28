@@ -14,8 +14,9 @@
     --border-color: #e5e7eb;
     --accent-color: #000000;
     --hover-bg: #f3f4f6;
-    --code-bg: #f8f9fa;
-    --shadow-light: 0 4px 12px rgba(0,0,0,0.1);
+    --code-bg: #f1f5f9;
+    --shadow-light: 0 4px 12px rgba(0,0,0,0.08);
+    --shadow-hover: 0 8px 25px rgba(0,0,0,0.12);
 }
 
 [data-theme="dark"] {
@@ -26,9 +27,14 @@
     --text-secondary: #a1a1aa;
     --border-color: #374151;
     --accent-color: #ffffff;
-    --hover-bg: #262626;
-    --code-bg: #1a1a1a;
-    --shadow-light: 0 4px 12px rgba(255,255,255,0.1);
+    --hover-bg: #2a2a2a;
+    --code-bg: #1e293b;
+    --shadow-light: 0 4px 12px rgba(0,0,0,0.2);
+    --shadow-hover: 0 8px 25px rgba(0,0,0,0.3);
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 body {
@@ -36,7 +42,7 @@ body {
     background-color: var(--bg-primary);
     color: var(--text-primary);
     line-height: 1.6;
-    transition: all 0.3s ease;
+    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .container {
@@ -52,6 +58,12 @@ header {
     position: sticky;
     top: 0;
     z-index: 100;
+    backdrop-filter: blur(8px);
+    background-color: rgba(248, 249, 250, 0.8);
+}
+
+[data-theme="dark"] header {
+    background-color: rgba(26, 26, 26, 0.8);
 }
 
 .header-content {
@@ -70,14 +82,12 @@ header {
     font-size: 1.5rem;
     font-weight: 600;
     color: var(--text-primary);
-    margin: 0;
     line-height: 1.2;
 }
 
 .logo p {
     font-size: 0.875rem;
     color: var(--text-secondary);
-    margin: 0;
     margin-top: 0.25rem;
 }
 
@@ -85,7 +95,6 @@ header {
     background: var(--bg-tertiary);
     border: 1px solid var(--border-color);
     border-radius: 8px;
-    padding: 8px;
     cursor: pointer;
     color: var(--text-primary);
     font-size: 16px;
@@ -108,13 +117,12 @@ header {
 
 main {
     padding: 3rem 0;
-    min-height: calc(100vh - 140px);
 }
 
 .intro {
     text-align: center;
     margin-bottom: 3rem;
-    max-width: 600px;
+    max-width: 650px;
     margin-left: auto;
     margin-right: auto;
 }
@@ -123,7 +131,7 @@ main {
     font-size: 2.5rem;
     font-weight: 700;
     margin-bottom: 1rem;
-    background: linear-gradient(135deg, var(--accent-color), var(--text-secondary));
+    background: linear-gradient(135deg, var(--text-primary), var(--text-secondary));
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
@@ -132,7 +140,6 @@ main {
 .intro p {
     font-size: 1.1rem;
     color: var(--text-secondary);
-    margin-bottom: 2rem;
 }
 
 .generator-grid {
@@ -142,7 +149,7 @@ main {
     margin-bottom: 3rem;
 }
 
-.config-panel, .preview-panel {
+.config-panel, .preview-panel, .code-output {
     background: var(--bg-secondary);
     border: 1px solid var(--border-color);
     border-radius: 12px;
@@ -151,21 +158,22 @@ main {
     transition: all 0.3s ease;
 }
 
-.config-panel:hover, .preview-panel:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
-}
-
-[data-theme="dark"] .config-panel:hover, 
-[data-theme="dark"] .preview-panel:hover {
-    box-shadow: 0 8px 25px rgba(255,255,255,0.1);
+.config-panel:hover, .preview-panel:hover, .code-output:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-hover);
 }
 
 .panel-title {
     font-size: 1.25rem;
     font-weight: 600;
-    margin-bottom: 1.5rem;
+    margin-bottom: 0.5rem;
     color: var(--text-primary);
+}
+
+.panel-subtitle {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
 }
 
 .form-group {
@@ -176,10 +184,11 @@ label {
     display: block;
     margin-bottom: 0.5rem;
     font-weight: 500;
+    font-size: 0.9rem;
     color: var(--text-primary);
 }
 
-select, input[type="text"], input[type="color"] {
+select {
     width: 100%;
     padding: 0.75rem;
     border: 1px solid var(--border-color);
@@ -188,16 +197,21 @@ select, input[type="text"], input[type="color"] {
     color: var(--text-primary);
     font-size: 14px;
     transition: all 0.2s ease;
+    -webkit-appearance: none;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.5rem center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
 }
 
-select:focus, input:focus {
+select:focus {
     outline: none;
     border-color: var(--accent-color);
     box-shadow: 0 0 0 3px rgba(0,0,0,0.1);
 }
 
-[data-theme="dark"] select:focus, 
-[data-theme="dark"] input:focus {
+[data-theme="dark"] select:focus {
     box-shadow: 0 0 0 3px rgba(255,255,255,0.1);
 }
 
@@ -214,6 +228,7 @@ select:focus, input:focus {
     padding: 0.5rem;
     border-radius: 6px;
     transition: background-color 0.2s ease;
+    cursor: pointer;
 }
 
 .checkbox-item:hover {
@@ -221,8 +236,9 @@ select:focus, input:focus {
 }
 
 .checkbox-item input[type="checkbox"] {
-    width: auto;
-    margin: 0;
+    width: 1em;
+    height: 1em;
+    accent-color: var(--accent-color);
 }
 
 .checkbox-item label {
@@ -259,7 +275,7 @@ select:focus, input:focus {
     gap: 0.5rem;
     text-decoration: none;
     font-weight: 500;
-    transition: all 0.3s ease;
+    transition: all 0.2s ease;
     cursor: pointer;
     background: var(--bg-tertiary);
     color: var(--text-primary);
@@ -268,8 +284,12 @@ select:focus, input:focus {
 }
 
 .share-button:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-light);
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-hover);
+}
+
+.share-button:active {
+    transform: translateY(-1px);
 }
 
 .share-button-icon {
@@ -281,10 +301,7 @@ select:focus, input:focus {
     transform: scale(1.1);
 }
 
-/* Display Style */
-.share-button.icon-only {
-    padding: 0.75rem;
-}
+.share-button.icon-only { padding: 0.75rem; }
 .share-button.text-only {
     background: transparent;
     border: none;
@@ -298,7 +315,6 @@ select:focus, input:focus {
     box-shadow: none;
 }
 
-/* Size Style */
 .size-small .share-button { padding: 0.5rem 1rem; font-size: 12px; }
 .size-small .share-button-icon { width: 16px; height: 16px; }
 .size-small .share-button.icon-only { padding: 0.5rem; }
@@ -311,17 +327,12 @@ select:focus, input:focus {
 .size-large .share-button-icon { width: 24px; height: 24px; }
 .size-large .share-button.icon-only { padding: 1rem; }
 
-/* Button Style */
 .style-rounded .share-button { border-radius: 8px; }
-.style-square .share-button { border-radius: 0; }
+.style-square .share-button { border-radius: 4px; }
 .style-circle .share-button.icon-only { border-radius: 50%; }
 .style-circle .share-button:not(.icon-only) { border-radius: 999px; }
 
-/* Position Style */
-.position-inline {
-    position: relative;
-    flex-direction: row;
-}
+.position-inline { position: relative; flex-direction: row; }
 .position-floating-left, .position-floating-right {
     position: absolute;
     top: 50%;
@@ -337,14 +348,6 @@ select:focus, input:focus {
 .position-floating-left { left: 1.5rem; }
 .position-floating-right { right: 1.5rem; }
 
-.code-output {
-    background: var(--bg-secondary);
-    border: 1px solid var(--border-color);
-    border-radius: 12px;
-    padding: 2rem;
-    box-shadow: var(--shadow-light);
-}
-
 .code-block {
     background: var(--code-bg);
     border: 1px solid var(--border-color);
@@ -358,14 +361,15 @@ select:focus, input:focus {
     font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', monospace;
     font-size: 14px;
     color: var(--text-primary);
-    white-space: pre;
+    white-space: pre-wrap;
+    word-wrap: break-word;
     line-height: 1.5;
 }
 
 .copy-button {
     position: absolute;
-    top: 1rem;
-    right: 1rem;
+    top: 0.75rem;
+    right: 0.75rem;
     background: var(--accent-color);
     color: var(--bg-primary);
     border: none;
@@ -382,20 +386,27 @@ select:focus, input:focus {
     transform: scale(1.05);
 }
 
-.copy-button:active {
-    transform: scale(0.95);
-}
-
-.success-message {
-    color: #10b981;
-    font-size: 0.875rem;
-    margin-top: 0.5rem;
+.copy-success-message {
+    position: absolute;
+    bottom: 1.5rem;
+    left: 50%;
+    transform: translate(-50%, 10px);
+    background-color: #28a745;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 500;
     opacity: 0;
-    transition: opacity 0.3s ease;
+    visibility: hidden;
+    transition: opacity 0.3s ease, transform 0.3s ease, visibility 0.3s;
+    z-index: 200;
 }
 
-.success-message.show {
+.copy-success-message.show {
     opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, 0);
 }
 
 footer {
@@ -418,59 +429,19 @@ footer a:hover {
     color: var(--accent-color);
 }
 
-.loading-spinner {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-    border: 2px solid var(--border-color);
-    border-radius: 50%;
-    border-top-color: var(--accent-color);
-    animation: spin 1s ease-in-out infinite;
-}
-
-@keyframes spin {
-    to { transform: rotate(360deg); }
-}
-
 @media (max-width: 768px) {
     .generator-grid {
         grid-template-columns: 1fr;
     }
-    .intro h2 {
-        font-size: 2rem;
-    }
-    .checkbox-group {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 0.5rem;
-    }
-    .logo h1 {
-        font-size: 1.25rem;
-    }
-    .logo p {
-        font-size: 0.8rem;
-    }
-    .config-panel, .preview-panel {
-        padding: 1.5rem;
-    }
-    .position-floating-left { left: 1rem; }
-    .position-floating-right { right: 1rem; }
+    .intro h2 { font-size: 2rem; }
+    .checkbox-group { grid-template-columns: repeat(2, 1fr); }
+    .logo h1 { font-size: 1.25rem; }
+    .panel-title { font-size: 1.15rem; }
+    .config-panel, .preview-panel, .code-output { padding: 1.5rem; }
 }
 
 @media (max-width: 480px) {
-    .container {
-        padding: 0 15px;
-    }
-    .header-left {
-        gap: 0.75rem;
-    }
-    .logo p {
-        display: none;
-    }
-    .checkbox-group {
-        grid-template-columns: 1fr;
-    }
-    .share-preview {
-        padding: 1.5rem;
-        min-height: 150px;
-    }
+    .header-left { gap: 0.75rem; }
+    .logo p { display: none; }
+    .checkbox-group { grid-template-columns: 1fr; }
 }
