@@ -1,6 +1,16 @@
-// js/app.js
+/**
+ * Share Studio V 1.05 - Main Application
+ * A custom social media share button generator
+ * 
+ * @version 1.05
+ * @author Dee7 Studio (https://dee7studio.com)
+ * @repository https://github.com/DrEEjc7/share-studio
+ * @license MIT
+ */
 
 document.addEventListener('DOMContentLoaded', () => {
+    'use strict';
+
     // --- CONFIGURATION ---
     const platformConfig = {
         facebook: { 
@@ -55,6 +65,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const copySuccessEl = document.getElementById('copy-success');
     const configControls = document.querySelectorAll('.config-panel input, .config-panel select');
 
+    // --- THEME MANAGEMENT ---
+
     /**
      * Sets the theme, updating the DOM and localStorage.
      * @param {string} theme - The theme to set ('light' or 'dark').
@@ -67,14 +79,14 @@ document.addEventListener('DOMContentLoaded', () => {
             document.body.removeAttribute('data-theme');
             themeIcon.textContent = '🌙';
         }
-        localStorage.setItem('theme', theme);
+        localStorage.setItem('share-studio-theme', theme);
     }
 
     /**
      * Toggles the color theme between light and dark.
      */
     function toggleTheme() {
-        const currentTheme = localStorage.getItem('theme') || 'light';
+        const currentTheme = localStorage.getItem('share-studio-theme') || 'light';
         const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
         setTheme(newTheme);
         
@@ -89,75 +101,33 @@ document.addEventListener('DOMContentLoaded', () => {
      * Loads the saved theme from localStorage, defaulting to light mode.
      */
     function loadInitialTheme() {
-        const savedTheme = localStorage.getItem('theme');
+        const savedTheme = localStorage.getItem('share-studio-theme');
         // Always default to light theme if no saved preference
         setTheme(savedTheme || 'light');
     }
 
+    // --- CODE GENERATION ---
+
     /**
-     * Updates the preview and generated code based on user selections.
+     * Generates CDN-based widget code (recommended approach).
      */
-    function updatePreview() {
-        try {
-            const platforms = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.id);
-            const iconColor = document.getElementById('icon-color').value;
-            const displayStyle = document.getElementById('display-style').value;
-            const buttonStyle = document.getElementById('button-style').value;
-            const size = document.getElementById('button-size').value;
-            const position = document.getElementById('position').value;
-
-            // --- Update Preview ---
-            previewContainer.innerHTML = '';
-            
-            if (platforms.length === 0) {
-                previewContainer.innerHTML = '<p class="panel-subtitle">Select a platform to see the preview.</p>';
-                generatedCodeEl.textContent = '';
-                return;
-            }
-
-            previewContainer.className = 'share-buttons'; // Reset classes
-            previewContainer.classList.add(`size-${size}`, `style-${buttonStyle}`, `position-${position}`);
-
-            platforms.forEach(platformId => {
-                const config = platformConfig[platformId];
-                if (!config) return;
-
-                const button = document.createElement('a');
-                button.href = '#';
-                button.className = `share-button ${platformId}`;
-                button.setAttribute('aria-label', `Share on ${config.label}`);
-                button.addEventListener('click', (e) => e.preventDefault());
-                
-                if (displayStyle === 'icon-only') button.classList.add('icon-only');
-                if (displayStyle === 'text-only') button.classList.add('text-only');
-
-                const iconSrc = iconColor === 'color' ? config.colorIcon : config.blackIcon;
-                const iconHtml = `<img src="${iconSrc}" alt="" class="share-button-icon" loading="lazy">`;
-
-                if (displayStyle === 'text-only') {
-                    button.textContent = config.label;
-                } else if (displayStyle === 'icon-only') {
-                    button.innerHTML = iconHtml;
-                } else {
-                    button.innerHTML = `${iconHtml} ${config.label}`;
-                }
-                previewContainer.appendChild(button);
-            });
-            
-            // --- Update Generated Code ---
-            const code = generateCompleteWidget(platforms, iconColor, displayStyle, buttonStyle, size, position);
-            generatedCodeEl.textContent = code;
-
-        } catch (error) {
-            console.error('Error updating preview:', error);
-            previewContainer.innerHTML = '<p style="color: red;">Error generating preview. Check console for details.</p>';
-        }
+    function generateCDNWidget(platforms, iconColor, displayStyle, buttonStyle, size, position) {
+        return `<!-- Share Studio Widget V 1.05 -->
+<script src="https://cdn.jsdelivr.net/gh/DrEEjc7/share-studio@latest/dist/share-buttons.min.js"
+    data-platforms="${platforms.join(',')}"
+    data-icon-color="${iconColor}"
+    data-display-style="${displayStyle}"
+    data-button-style="${buttonStyle}"
+    data-size="${size}"
+    data-position="${position}"
+    defer>
+</script>`;
     }
 
     /**
-     * Generates complete, standalone widget code that works without external dependencies.
+     * Generates complete, standalone widget code (no dependencies).
      */
-    function generateCompleteWidget(platforms, iconColor, displayStyle, buttonStyle, size, position) {
+    function generateStandaloneWidget(platforms, iconColor, displayStyle, buttonStyle, size, position) {
         const shareUrls = {
             facebook: 'https://www.facebook.com/sharer/sharer.php?u=',
             x: 'https://twitter.com/intent/tweet?url=',
@@ -180,9 +150,9 @@ document.addEventListener('DOMContentLoaded', () => {
             if (displayStyle === 'text-only') {
                 buttonContent = config.label;
             } else if (displayStyle === 'icon-only') {
-                buttonContent = `<img src="${iconSrc}" alt="${config.label}" class="share-btn-icon">`;
+                buttonContent = `<img src="${iconSrc}" alt="${config.label}" class="share-btn-icon" loading="lazy">`;
             } else {
-                buttonContent = `<img src="${iconSrc}" alt="${config.label}" class="share-btn-icon"> ${config.label}`;
+                buttonContent = `<img src="${iconSrc}" alt="${config.label}" class="share-btn-icon" loading="lazy"> ${config.label}`;
             }
 
             return `<a href="#" class="share-btn share-btn-${platformId}" data-platform="${platformId}" data-url="${shareUrl}" aria-label="Share on ${config.label}">${buttonContent}</a>`;
@@ -327,12 +297,10 @@ function initShareButtons() {
             
             switch(platform) {
                 case 'facebook':
-                    // Facebook automatically pulls OG tags, just need URL
                     finalUrl = shareUrl + pageInfo.url;
                     break;
                     
                 case 'x':
-                    // Twitter: URL + text (title + description if available)
                     const twitterText = pageInfo.description ? 
                         pageInfo.title + ' - ' + decodeURIComponent(pageInfo.description).substring(0, 100) + '...' : 
                         pageInfo.title;
@@ -340,12 +308,10 @@ function initShareButtons() {
                     break;
                     
                 case 'linkedin':
-                    // LinkedIn automatically pulls meta data, just need URL
                     finalUrl = shareUrl + pageInfo.url;
                     break;
                     
                 case 'pinterest':
-                    // Pinterest: URL + description + image
                     const pinterestDescription = pageInfo.description || pageInfo.title;
                     finalUrl = shareUrl + pageInfo.url + '&description=' + pinterestDescription;
                     if (pageInfo.image) {
@@ -354,17 +320,14 @@ function initShareButtons() {
                     break;
                     
                 case 'reddit':
-                    // Reddit: URL + title
                     finalUrl = shareUrl + pageInfo.url + '&title=' + pageInfo.title;
                     break;
                     
                 case 'tiktok':
-                    // TikTok: URL + title
                     finalUrl = shareUrl + pageInfo.url + '&title=' + pageInfo.title;
                     break;
                     
                 case 'instagram':
-                    // Instagram doesn't support direct URL sharing
                     const instagramText = decodeURIComponent(pageInfo.title) + '\\n\\n' + window.location.href;
                     if (navigator.clipboard) {
                         navigator.clipboard.writeText(decodeURIComponent(pageInfo.title) + '\\n\\n' + window.location.href).then(() => {
@@ -376,7 +339,6 @@ function initShareButtons() {
                     return;
                     
                 case 'copy':
-                    // Copy page title and URL
                     const copyText = decodeURIComponent(pageInfo.title) + '\\n' + window.location.href;
                     
                     if (navigator.clipboard) {
@@ -389,7 +351,6 @@ function initShareButtons() {
                                 this.innerHTML = originalHtml;
                             }, 2000);
                         }).catch(() => {
-                            // Fallback
                             copyToClipboardFallback(copyText, this);
                         });
                     } else {
@@ -399,14 +360,12 @@ function initShareButtons() {
             }
             
             if (finalUrl) {
-                // Open share dialog
                 const shareWindow = window.open(
                     finalUrl, 
                     'share-dialog', 
                     'width=600,height=500,resizable=yes,scrollbars=yes'
                 );
                 
-                // Focus the share window
                 if (shareWindow) {
                     shareWindow.focus();
                 }
@@ -449,7 +408,7 @@ if (document.readyState === 'loading') {
     initShareButtons();
 }`;
 
-        return `<!-- Share Studio Widget -->
+        return `<!-- Share Studio Widget V 1.05 (Standalone) -->
 <div class="share-widget ${position === 'inline' ? '' : position}">
 ${buttonHtml}
 </div>
@@ -462,6 +421,94 @@ ${css}
 ${javascript}
 </script>`;
     }
+
+    // --- UI UPDATES ---
+
+    /**
+     * Updates the code type information display.
+     */
+    function updateCodeTypeInfo() {
+        const codeType = document.getElementById('code-type').value;
+        const infoCdn = document.querySelector('.info-cdn');
+        const infoStandalone = document.querySelector('.info-standalone');
+        
+        if (codeType === 'cdn') {
+            infoCdn.style.display = 'block';
+            infoStandalone.style.display = 'none';
+        } else {
+            infoCdn.style.display = 'none';
+            infoStandalone.style.display = 'block';
+        }
+    }
+
+    /**
+     * Updates the preview and generated code based on user selections.
+     */
+    function updatePreview() {
+        try {
+            const platforms = Array.from(document.querySelectorAll('input[type="checkbox"]:checked')).map(cb => cb.id);
+            const iconColor = document.getElementById('icon-color').value;
+            const displayStyle = document.getElementById('display-style').value;
+            const buttonStyle = document.getElementById('button-style').value;
+            const size = document.getElementById('button-size').value;
+            const position = document.getElementById('position').value;
+
+            // --- Update Preview ---
+            previewContainer.innerHTML = '';
+            
+            if (platforms.length === 0) {
+                previewContainer.innerHTML = '<p class="panel-subtitle">Select a platform to see the preview.</p>';
+                generatedCodeEl.textContent = '';
+                return;
+            }
+
+            previewContainer.className = 'share-buttons'; // Reset classes
+            previewContainer.classList.add(`size-${size}`, `style-${buttonStyle}`, `position-${position}`);
+
+            platforms.forEach(platformId => {
+                const config = platformConfig[platformId];
+                if (!config) return;
+
+                const button = document.createElement('a');
+                button.href = '#';
+                button.className = `share-button ${platformId}`;
+                button.setAttribute('aria-label', `Share on ${config.label}`);
+                button.addEventListener('click', (e) => e.preventDefault());
+                
+                if (displayStyle === 'icon-only') button.classList.add('icon-only');
+                if (displayStyle === 'text-only') button.classList.add('text-only');
+
+                const iconSrc = iconColor === 'color' ? config.colorIcon : config.blackIcon;
+                const iconHtml = `<img src="${iconSrc}" alt="" class="share-button-icon" loading="lazy">`;
+
+                if (displayStyle === 'text-only') {
+                    button.textContent = config.label;
+                } else if (displayStyle === 'icon-only') {
+                    button.innerHTML = iconHtml;
+                } else {
+                    button.innerHTML = `${iconHtml} ${config.label}`;
+                }
+                previewContainer.appendChild(button);
+            });
+            
+            // --- Update Generated Code ---
+            const useStandalone = document.getElementById('code-type').value === 'standalone';
+            const code = useStandalone ? 
+                generateStandaloneWidget(platforms, iconColor, displayStyle, buttonStyle, size, position) :
+                generateCDNWidget(platforms, iconColor, displayStyle, buttonStyle, size, position);
+            generatedCodeEl.textContent = code;
+
+        } catch (error) {
+            console.error('Error updating preview:', error);
+            previewContainer.innerHTML = '<p style="color: red;">Error generating preview. Check console for details.</p>';
+        }
+    }
+
+    // --- CLIPBOARD FUNCTIONALITY ---
+
+    /**
+     * Copies the generated code to the clipboard with visual feedback.
+     */
     async function copyCode() {
         try {
             const codeToCopy = generatedCodeEl.textContent;
@@ -492,7 +539,7 @@ ${javascript}
             const originalBg = copyCodeButton.style.backgroundColor;
             
             copyCodeButton.textContent = 'Copied!';
-            copyCodeButton.style.backgroundColor = '#28a745';
+            copyCodeButton.style.backgroundColor = '#10b981';
             
             // Show success message
             copySuccessEl.classList.add('show');
@@ -518,6 +565,8 @@ ${javascript}
         }
     }
 
+    // --- FORM VALIDATION ---
+
     /**
      * Handles form validation and provides user feedback.
      */
@@ -533,8 +582,10 @@ ${javascript}
         }
     }
 
+    // --- INITIALIZATION ---
+
     /**
-     * Initializes the application.
+     * Initializes the application with all event listeners and initial state.
      */
     function init() {
         try {
@@ -545,16 +596,41 @@ ${javascript}
             configControls.forEach(control => {
                 control.addEventListener('change', () => {
                     updatePreview();
+                    updateCodeTypeInfo();
                     validateForm();
                 });
+            });
+
+            // Listen for system theme changes
+            const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+            mediaQuery.addEventListener('change', (e) => {
+                // Only auto-switch if user hasn't manually set a preference
+                if (!localStorage.getItem('share-studio-theme')) {
+                    setTheme(e.matches ? 'dark' : 'light');
+                }
             });
 
             // Set dynamic content and initial state
             currentYearEl.textContent = new Date().getFullYear();
             loadInitialTheme(); // This will default to light theme
+            updateCodeTypeInfo(); // Set initial code type info
             updatePreview();
             
-            console.log('Share Studio initialized successfully');
+            // Add keyboard shortcuts
+            document.addEventListener('keydown', (e) => {
+                // Ctrl/Cmd + K to copy code
+                if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                    e.preventDefault();
+                    copyCode();
+                }
+                // Ctrl/Cmd + D to toggle theme
+                if ((e.ctrlKey || e.metaKey) && e.key === 'd') {
+                    e.preventDefault();
+                    toggleTheme();
+                }
+            });
+            
+            console.log('Share Studio V 1.05 initialized successfully');
             
         } catch (error) {
             console.error('Initialization error:', error);
