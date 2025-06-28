@@ -83,12 +83,14 @@ header {
     font-weight: 600;
     color: var(--text-primary);
     line-height: 1.2;
+    margin: 0;
 }
 
 .logo p {
     font-size: 0.875rem;
     color: var(--text-secondary);
     margin-top: 0.25rem;
+    margin-bottom: 0;
 }
 
 .theme-toggle {
@@ -104,6 +106,7 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
+    padding: 0;
 }
 
 .theme-toggle:hover {
@@ -301,13 +304,17 @@ select:focus {
     transform: scale(1.1);
 }
 
-.share-button.icon-only { padding: 0.75rem; }
+.share-button.icon-only { 
+    padding: 0.75rem; 
+}
+
 .share-button.text-only {
     background: transparent;
     border: none;
     padding: 0.5rem;
     color: var(--text-secondary);
 }
+
 .share-button.text-only:hover {
     color: var(--text-primary);
     background: transparent;
@@ -315,24 +322,72 @@ select:focus {
     box-shadow: none;
 }
 
-.size-small .share-button { padding: 0.5rem 1rem; font-size: 12px; }
-.size-small .share-button-icon { width: 16px; height: 16px; }
-.size-small .share-button.icon-only { padding: 0.5rem; }
+/* Size styles */
+.size-small .share-button { 
+    padding: 0.5rem 1rem; 
+    font-size: 12px; 
+}
 
-.size-medium .share-button { padding: 0.75rem 1rem; font-size: 14px; }
-.size-medium .share-button-icon { width: 20px; height: 20px; }
-.size-medium .share-button.icon-only { padding: 0.75rem; }
+.size-small .share-button-icon { 
+    width: 16px; 
+    height: 16px; 
+}
 
-.size-large .share-button { padding: 1rem 1.5rem; font-size: 16px; }
-.size-large .share-button-icon { width: 24px; height: 24px; }
-.size-large .share-button.icon-only { padding: 1rem; }
+.size-small .share-button.icon-only { 
+    padding: 0.5rem; 
+}
 
-.style-rounded .share-button { border-radius: 8px; }
-.style-square .share-button { border-radius: 4px; }
-.style-circle .share-button.icon-only { border-radius: 50%; }
-.style-circle .share-button:not(.icon-only) { border-radius: 999px; }
+.size-medium .share-button { 
+    padding: 0.75rem 1rem; 
+    font-size: 14px; 
+}
 
-.position-inline { position: relative; flex-direction: row; }
+.size-medium .share-button-icon { 
+    width: 20px; 
+    height: 20px; 
+}
+
+.size-medium .share-button.icon-only { 
+    padding: 0.75rem; 
+}
+
+.size-large .share-button { 
+    padding: 1rem 1.5rem; 
+    font-size: 16px; 
+}
+
+.size-large .share-button-icon { 
+    width: 24px; 
+    height: 24px; 
+}
+
+.size-large .share-button.icon-only { 
+    padding: 1rem; 
+}
+
+/* Button styles */
+.style-rounded .share-button { 
+    border-radius: 8px; 
+}
+
+.style-square .share-button { 
+    border-radius: 4px; 
+}
+
+.style-circle .share-button.icon-only { 
+    border-radius: 50%; 
+}
+
+.style-circle .share-button:not(.icon-only) { 
+    border-radius: 999px; 
+}
+
+/* Position styles */
+.position-inline { 
+    position: relative; 
+    flex-direction: row; 
+}
+
 .position-floating-left, .position-floating-right {
     position: absolute;
     top: 50%;
@@ -345,8 +400,14 @@ select:focus {
     border-radius: 8px;
     box-shadow: var(--shadow-light);
 }
-.position-floating-left { left: 1.5rem; }
-.position-floating-right { right: 1.5rem; }
+
+.position-floating-left { 
+    left: 1.5rem; 
+}
+
+.position-floating-right { 
+    right: 1.5rem; 
+}
 
 .code-block {
     background: var(--code-bg);
@@ -429,19 +490,56 @@ footer a:hover {
     color: var(--accent-color);
 }
 
+/* Responsive design */
 @media (max-width: 768px) {
     .generator-grid {
         grid-template-columns: 1fr;
     }
-    .intro h2 { font-size: 2rem; }
-    .checkbox-group { grid-template-columns: repeat(2, 1fr); }
-    .logo h1 { font-size: 1.25rem; }
-    .panel-title { font-size: 1.15rem; }
-    .config-panel, .preview-panel, .code-output { padding: 1.5rem; }
+    
+    .intro h2 { 
+        font-size: 2rem; 
+    }
+    
+    .checkbox-group { 
+        grid-template-columns: repeat(2, 1fr); 
+    }
+    
+    .logo h1 { 
+        font-size: 1.25rem; 
+    }
+    
+    .panel-title { 
+        font-size: 1.15rem; 
+    }
+    
+    .config-panel, .preview-panel, .code-output { 
+        padding: 1.5rem; 
+    }
+    
+    .position-floating-left { 
+        left: 1rem; 
+    }
+    
+    .position-floating-right { 
+        right: 1rem; 
+    }
 }
 
 @media (max-width: 480px) {
-    .header-left { gap: 0.75rem; }
-    .logo p { display: none; }
-    .checkbox-group { grid-template-columns: 1fr; }
+    .header-left { 
+        gap: 0.75rem; 
+    }
+    
+    .logo p { 
+        display: none; 
+    }
+    
+    .checkbox-group { 
+        grid-template-columns: 1fr; 
+    }
+    
+    .share-preview {
+        padding: 1.5rem;
+        min-height: 150px;
+    }
 }
