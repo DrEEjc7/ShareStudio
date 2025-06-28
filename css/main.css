@@ -15,6 +15,7 @@
     --accent-color: #000000;
     --hover-bg: #f3f4f6;
     --code-bg: #f8f9fa;
+    --shadow-light: 0 4px 12px rgba(0,0,0,0.1);
 }
 
 [data-theme="dark"] {
@@ -27,6 +28,7 @@
     --accent-color: #ffffff;
     --hover-bg: #262626;
     --code-bg: #1a1a1a;
+    --shadow-light: 0 4px 12px rgba(255,255,255,0.1);
 }
 
 body {
@@ -47,6 +49,9 @@ header {
     background-color: var(--bg-secondary);
     border-bottom: 1px solid var(--border-color);
     padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 100;
 }
 
 .header-content {
@@ -94,11 +99,40 @@ header {
 
 .theme-toggle:hover {
     background: var(--hover-bg);
+    transform: scale(1.05);
+}
+
+.theme-toggle:active {
+    transform: scale(0.95);
 }
 
 main {
     padding: 3rem 0;
     min-height: calc(100vh - 140px);
+}
+
+.intro {
+    text-align: center;
+    margin-bottom: 3rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.intro h2 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--accent-color), var(--text-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.intro p {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
 }
 
 .generator-grid {
@@ -113,6 +147,18 @@ main {
     border: 1px solid var(--border-color);
     border-radius: 12px;
     padding: 2rem;
+    box-shadow: var(--shadow-light);
+    transition: all 0.3s ease;
+}
+
+.config-panel:hover, .preview-panel:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+}
+
+[data-theme="dark"] .config-panel:hover, 
+[data-theme="dark"] .preview-panel:hover {
+    box-shadow: 0 8px 25px rgba(255,255,255,0.1);
 }
 
 .panel-title {
@@ -141,11 +187,18 @@ select, input[type="text"], input[type="color"] {
     background: var(--bg-tertiary);
     color: var(--text-primary);
     font-size: 14px;
+    transition: all 0.2s ease;
 }
 
 select:focus, input:focus {
     outline: none;
     border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(0,0,0,0.1);
+}
+
+[data-theme="dark"] select:focus, 
+[data-theme="dark"] input:focus {
+    box-shadow: 0 0 0 3px rgba(255,255,255,0.1);
 }
 
 .checkbox-group {
@@ -158,22 +211,38 @@ select:focus, input:focus {
     display: flex;
     align-items: center;
     gap: 0.5rem;
+    padding: 0.5rem;
+    border-radius: 6px;
+    transition: background-color 0.2s ease;
+}
+
+.checkbox-item:hover {
+    background-color: var(--hover-bg);
 }
 
 .checkbox-item input[type="checkbox"] {
     width: auto;
+    margin: 0;
+}
+
+.checkbox-item label {
+    margin: 0;
+    cursor: pointer;
+    font-size: 0.9rem;
 }
 
 .share-preview {
-    border: 1px dashed var(--border-color);
-    border-radius: 8px;
+    border: 2px dashed var(--border-color);
+    border-radius: 12px;
     padding: 2rem;
-    min-height: 150px;
+    min-height: 200px;
     display: flex;
     align-items: center;
     justify-content: center;
-    position: relative; /* For floating button containment */
+    position: relative;
     overflow: hidden;
+    background: var(--bg-tertiary);
+    transition: all 0.3s ease;
 }
 
 .share-buttons {
@@ -190,23 +259,27 @@ select:focus, input:focus {
     gap: 0.5rem;
     text-decoration: none;
     font-weight: 500;
-    transition: all 0.2s ease;
+    transition: all 0.3s ease;
     cursor: pointer;
     background: var(--bg-tertiary);
     color: var(--text-primary);
     border: 1px solid var(--border-color);
+    white-space: nowrap;
 }
 
 .share-button:hover {
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    box-shadow: var(--shadow-light);
 }
 
 .share-button-icon {
     flex-shrink: 0;
+    transition: transform 0.2s ease;
 }
 
-/* --- DYNAMIC STYLES --- */
+.share-button:hover .share-button-icon {
+    transform: scale(1.1);
+}
 
 /* Display Style */
 .share-button.icon-only {
@@ -242,7 +315,7 @@ select:focus, input:focus {
 .style-rounded .share-button { border-radius: 8px; }
 .style-square .share-button { border-radius: 0; }
 .style-circle .share-button.icon-only { border-radius: 50%; }
-.style-circle .share-button:not(.icon-only) { border-radius: 999px; } /* Pill shape for icon+text */
+.style-circle .share-button:not(.icon-only) { border-radius: 999px; }
 
 /* Position Style */
 .position-inline {
@@ -259,20 +332,17 @@ select:focus, input:focus {
     background-color: var(--bg-tertiary);
     border: 1px solid var(--border-color);
     border-radius: 8px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    box-shadow: var(--shadow-light);
 }
 .position-floating-left { left: 1.5rem; }
 .position-floating-right { right: 1.5rem; }
-
-
-/* --- END DYNAMIC STYLES --- */
-
 
 .code-output {
     background: var(--bg-secondary);
     border: 1px solid var(--border-color);
     border-radius: 12px;
     padding: 2rem;
+    box-shadow: var(--shadow-light);
 }
 
 .code-block {
@@ -289,6 +359,7 @@ select:focus, input:focus {
     font-size: 14px;
     color: var(--text-primary);
     white-space: pre;
+    line-height: 1.5;
 }
 
 .copy-button {
@@ -303,10 +374,28 @@ select:focus, input:focus {
     font-size: 12px;
     cursor: pointer;
     transition: all 0.2s ease;
+    font-weight: 500;
 }
 
 .copy-button:hover {
     opacity: 0.8;
+    transform: scale(1.05);
+}
+
+.copy-button:active {
+    transform: scale(0.95);
+}
+
+.success-message {
+    color: #10b981;
+    font-size: 0.875rem;
+    margin-top: 0.5rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.success-message.show {
+    opacity: 1;
 }
 
 footer {
@@ -321,10 +410,26 @@ footer a {
     color: var(--text-primary);
     text-decoration: none;
     font-weight: 500;
+    transition: color 0.2s ease;
 }
 
 footer a:hover {
     text-decoration: underline;
+    color: var(--accent-color);
+}
+
+.loading-spinner {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--border-color);
+    border-radius: 50%;
+    border-top-color: var(--accent-color);
+    animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+    to { transform: rotate(360deg); }
 }
 
 @media (max-width: 768px) {
@@ -343,5 +448,29 @@ footer a:hover {
     }
     .logo p {
         font-size: 0.8rem;
+    }
+    .config-panel, .preview-panel {
+        padding: 1.5rem;
+    }
+    .position-floating-left { left: 1rem; }
+    .position-floating-right { right: 1rem; }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0 15px;
+    }
+    .header-left {
+        gap: 0.75rem;
+    }
+    .logo p {
+        display: none;
+    }
+    .checkbox-group {
+        grid-template-columns: 1fr;
+    }
+    .share-preview {
+        padding: 1.5rem;
+        min-height: 150px;
     }
 }
