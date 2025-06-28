@@ -6,10 +6,25 @@
     <title>Share Studio - Generate Custom Social Media Share Buttons</title>
     <meta name="description" content="Create beautiful, responsive social media share buttons for your website. Zero dependencies, full customization, live preview.">
     
+    <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="https://ik.imagekit.io/dee7studio/Logos/Share%20Studio_2.svg?updatedAt=1751106615016">
     <link rel="apple-touch-icon" href="https://ik.imagekit.io/dee7studio/Logos/Share%20Studio_2.svg?updatedAt=1751106615016">
     
+    <!-- Stylesheets -->
     <link rel="stylesheet" href="css/main.css">
+    
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:title" content="Share Studio - Custom Social Media Share Buttons">
+    <meta property="og:description" content="Generate beautiful, responsive social media share buttons with zero dependencies and full customization.">
+    <meta property="og:image" content="https://ik.imagekit.io/dee7studio/Logos/Share%20Studio_2.svg?updatedAt=1751106615016">
+    <meta property="og:url" content="https://sharestudio.dev">
+    <meta property="og:type" content="website">
+    
+    <!-- Twitter Card Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Share Studio - Custom Social Media Share Buttons">
+    <meta name="twitter:description" content="Generate beautiful, responsive social media share buttons with zero dependencies and full customization.">
+    <meta name="twitter:image" content="https://ik.imagekit.io/dee7studio/Logos/Share%20Studio_2.svg?updatedAt=1751106615016">
 </head>
 <body>
     <header>
@@ -17,12 +32,15 @@
             <div class="header-content">
                 <div class="header-left">
                     <button class="theme-toggle" id="theme-toggle-btn" aria-label="Toggle color theme">
-                        <span id="theme-icon"></span>
+                        <span id="theme-icon">🌙</span>
                     </button>
                     <div class="logo">
                         <h1>Share Studio</h1>
                         <p>Generate custom share buttons for your website</p>
                     </div>
+                </div>
+                <div class="version-badge">
+                    <span>V 1.05</span>
                 </div>
             </div>
         </div>
@@ -30,6 +48,11 @@
 
     <main>
         <div class="container">
+            <section class="intro">
+                <h2>Custom Share Buttons Made Simple</h2>
+                <p>Create beautiful, responsive social media share buttons for your website. No dependencies, full customization, live preview.</p>
+            </section>
+
             <div class="generator-grid">
                 <div class="config-panel">
                     <h3 class="panel-title">Configuration</h3>
@@ -37,14 +60,38 @@
                     <div class="form-group">
                         <label>Select Platforms</label>
                         <div class="checkbox-group">
-                            <div class="checkbox-item"><input type="checkbox" id="facebook" checked><label for="facebook">Facebook</label></div>
-                            <div class="checkbox-item"><input type="checkbox" id="x" checked><label for="x">X</label></div>
-                            <div class="checkbox-item"><input type="checkbox" id="linkedin" checked><label for="linkedin">LinkedIn</label></div>
-                            <div class="checkbox-item"><input type="checkbox" id="pinterest"><label for="pinterest">Pinterest</label></div>
-                            <div class="checkbox-item"><input type="checkbox" id="reddit"><label for="reddit">Reddit</label></div>
-                            <div class="checkbox-item"><input type="checkbox" id="tiktok"><label for="tiktok">TikTok</label></div>
-                            <div class="checkbox-item"><input type="checkbox" id="instagram"><label for="instagram">Instagram</label></div>
-                            <div class="checkbox-item"><input type="checkbox" id="copy"><label for="copy">Copy Link</label></div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="facebook" checked>
+                                <label for="facebook">Facebook</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="x" checked>
+                                <label for="x">X</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="linkedin" checked>
+                                <label for="linkedin">LinkedIn</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="pinterest">
+                                <label for="pinterest">Pinterest</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="reddit">
+                                <label for="reddit">Reddit</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="tiktok">
+                                <label for="tiktok">TikTok</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="instagram">
+                                <label for="instagram">Instagram</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="copy">
+                                <label for="copy">Copy Link</label>
+                            </div>
                         </div>
                     </div>
 
@@ -91,6 +138,14 @@
                             <option value="floating-right">Floating Right</option>
                         </select>
                     </div>
+
+                    <div class="form-group">
+                        <label for="code-type">Code Type</label>
+                        <select id="code-type" aria-label="Code Type">
+                            <option value="cdn" selected>CDN (Recommended)</option>
+                            <option value="standalone">Standalone (No Dependencies)</option>
+                        </select>
+                    </div>
                 </div>
 
                 <div class="preview-panel">
@@ -105,6 +160,16 @@
             <div class="code-output">
                 <h3 class="panel-title">Get Your Code</h3>
                 <p class="panel-subtitle">Copy and paste this code just before the closing &lt;/body&gt; tag of your website:</p>
+                
+                <div class="code-type-info" id="code-type-info">
+                    <div class="info-cdn">
+                        <strong>CDN (Recommended):</strong> Tiny code, automatic updates, better performance, cached globally.
+                    </div>
+                    <div class="info-standalone" style="display: none;">
+                        <strong>Standalone:</strong> No dependencies, works offline, complete control, larger code size.
+                    </div>
+                </div>
+                
                 <div class="code-block">
                     <button class="copy-button" id="copy-code-btn">Copy</button>
                     <code id="generated-code"></code>
@@ -116,7 +181,7 @@
 
     <footer>
         <div class="container">
-            <p>Copyright © <span id="current-year"></span> • Designed with ❤️ by <a href="https://dee7studio.com" target="_blank" rel="noopener noreferrer">Dee7 Studio</a></p>
+            <p>Copyright © <span id="current-year"></span> • Designed with ❤️ by <a href="https://dee7studio.com" target="_blank" rel="noopener noreferrer">Dee7 Studio</a> • <span class="version">Share Studio V 1.05</span></p>
         </div>
     </footer>
 
