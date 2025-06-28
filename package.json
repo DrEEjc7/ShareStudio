@@ -1,0 +1,104 @@
+{
+  "name": "share-studio-widget",
+  "version": "1.0.5",
+  "description": "A lightweight, customizable social media share buttons widget for any website. Zero dependencies, full customization, CDN ready.",
+  "main": "dist/share-buttons.min.js",
+  "module": "dist/share-buttons.js",
+  "unpkg": "dist/share-buttons.min.js",
+  "jsdelivr": "dist/share-buttons.min.js",
+  "files": [
+    "dist/",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "echo \"Build process: Manually optimized for maximum performance\"",
+    "dev": "echo \"Development: Open index.html in browser to use configuration tool\"",
+    "serve": "python -m http.server 8000 || python3 -m http.server 8000"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DrEEjc7/share-studio.git"
+  },
+  "keywords": [
+    "share",
+    "social-media",
+    "buttons",
+    "widget",
+    "facebook",
+    "twitter",
+    "linkedin",
+    "pinterest",
+    "reddit",
+    "tiktok",
+    "instagram",
+    "social-sharing",
+    "vanilla-js",
+    "no-dependencies",
+    "cdn",
+    "responsive",
+    "customizable",
+    "lightweight",
+    "accessible",
+    "seo",
+    "meta-tags",
+    "opengraph",
+    "web-component"
+  ],
+  "author": {
+    "name": "Dee7 Studio",
+    "email": "info@dee7studio.com",
+    "url": "https://dee7studio.com"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/DrEEjc7/share-studio/issues"
+  },
+  "homepage": "https://github.com/DrEEjc7/share-studio#readme",
+  "engines": {
+    "node": ">=12.0.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead",
+    "not ie 10"
+  ],
+  "funding": {
+    "type": "github",
+    "url": "https://github.com/sponsors/DrEEjc7"
+  },
+  "cdn": {
+    "production": "https://cdn.jsdelivr.net/gh/DrEEjc7/share-studio@latest/dist/share-buttons.min.js",
+    "development": "https://cdn.jsdelivr.net/gh/DrEEjc7/share-studio@latest/dist/share-buttons.js",
+    "unpkg": "https://unpkg.com/share-studio-widget@latest/dist/share-buttons.min.js"
+  },
+  "meta": {
+    "platforms": [
+      "facebook",
+      "x",
+      "linkedin", 
+      "pinterest",
+      "reddit",
+      "tiktok",
+      "instagram",
+      "copy"
+    ],
+    "features": [
+      "zero-dependencies",
+      "responsive",
+      "accessible", 
+      "customizable",
+      "lightweight",
+      "cdn-ready",
+      "seo-optimized",
+      "dark-mode",
+      "meta-data-extraction"
+    ],
+    "size": {
+      "minified": "3KB",
+      "gzipped": "1.2KB"
+    }
+  }
+}
