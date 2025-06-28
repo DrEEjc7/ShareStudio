@@ -4,11 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Share Studio - Generate Custom Social Media Share Buttons</title>
-    <meta name="description" content="Create custom social media share button widgets for any website. Zero dependencies, full customization, live preview.">
+    <meta name="description" content="Create beautiful, responsive social media share buttons for your website. Zero dependencies, full customization, live preview.">
     
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="https://ik.imagekit.io/dee7studio/Logos/Share%20Studio.svg?updatedAt=1751104456334">
-    <link rel="apple-touch-icon" href="https://ik.imagekit.io/dee7studio/Logos/Share%20Studio.svg?updatedAt=1751104456334">
+    <link rel="icon" type="image/svg+xml" href="https://ik.imagekit.io/dee7studio/Logos/Share%20Studio_2.svg?updatedAt=1751106615016">
+    <link rel="apple-touch-icon" href="https://ik.imagekit.io/dee7studio/Logos/Share%20Studio_2.svg?updatedAt=1751106615016">
     
     <link rel="stylesheet" href="css/main.css">
 </head>
@@ -17,8 +16,8 @@
         <div class="container">
             <div class="header-content">
                 <div class="header-left">
-                    <button class="theme-toggle" id="theme-toggle-btn" aria-label="Toggle theme">
-                        <span id="theme-icon">🌙</span>
+                    <button class="theme-toggle" id="theme-toggle-btn" aria-label="Toggle color theme">
+                        <span id="theme-icon"></span>
                     </button>
                     <div class="logo">
                         <h1>Share Studio</h1>
@@ -43,44 +42,20 @@
                     <div class="form-group">
                         <label>Select Platforms</label>
                         <div class="checkbox-group">
-                            <div class="checkbox-item">
-                                <input type="checkbox" id="facebook" checked>
-                                <label for="facebook">Facebook</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" id="x" checked>
-                                <label for="x">X</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" id="linkedin" checked>
-                                <label for="linkedin">LinkedIn</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" id="pinterest">
-                                <label for="pinterest">Pinterest</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" id="reddit">
-                                <label for="reddit">Reddit</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" id="tiktok">
-                                <label for="tiktok">TikTok</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" id="instagram">
-                                <label for="instagram">Instagram</label>
-                            </div>
-                            <div class="checkbox-item">
-                                <input type="checkbox" id="copy">
-                                <label for="copy">Copy Link</label>
-                            </div>
+                            <div class="checkbox-item"><input type="checkbox" id="facebook" checked><label for="facebook">Facebook</label></div>
+                            <div class="checkbox-item"><input type="checkbox" id="x" checked><label for="x">X</label></div>
+                            <div class="checkbox-item"><input type="checkbox" id="linkedin" checked><label for="linkedin">LinkedIn</label></div>
+                            <div class="checkbox-item"><input type="checkbox" id="pinterest"><label for="pinterest">Pinterest</label></div>
+                            <div class="checkbox-item"><input type="checkbox" id="reddit"><label for="reddit">Reddit</label></div>
+                            <div class="checkbox-item"><input type="checkbox" id="tiktok"><label for="tiktok">TikTok</label></div>
+                            <div class="checkbox-item"><input type="checkbox" id="instagram"><label for="instagram">Instagram</label></div>
+                            <div class="checkbox-item"><input type="checkbox" id="copy"><label for="copy">Copy Link</label></div>
                         </div>
                     </div>
 
                     <div class="form-group">
                         <label for="icon-color">Icon Color</label>
-                        <select id="icon-color">
+                        <select id="icon-color" aria-label="Icon Color">
                             <option value="color" selected>Color</option>
                             <option value="black">Black</option>
                         </select>
@@ -88,7 +63,7 @@
 
                     <div class="form-group">
                         <label for="display-style">Display Style</label>
-                        <select id="display-style">
+                        <select id="display-style" aria-label="Display Style">
                             <option value="icon-text" selected>Icon + Text</option>
                             <option value="icon-only">Icon Only</option>
                             <option value="text-only">Text Only</option>
@@ -97,7 +72,7 @@
 
                     <div class="form-group">
                         <label for="button-style">Button Style</label>
-                        <select id="button-style">
+                        <select id="button-style" aria-label="Button Style">
                             <option value="rounded" selected>Rounded</option>
                             <option value="square">Square</option>
                             <option value="circle">Circle</option>
@@ -106,7 +81,7 @@
 
                     <div class="form-group">
                         <label for="button-size">Button Size</label>
-                        <select id="button-size">
+                        <select id="button-size" aria-label="Button Size">
                             <option value="small">Small</option>
                             <option value="medium" selected>Medium</option>
                             <option value="large">Large</option>
@@ -115,7 +90,7 @@
 
                     <div class="form-group">
                         <label for="position">Position</label>
-                        <select id="position">
+                        <select id="position" aria-label="Position">
                             <option value="inline" selected>Inline</option>
                             <option value="floating-left">Floating Left</option>
                             <option value="floating-right">Floating Right</option>
@@ -126,19 +101,20 @@
                 <div class="preview-panel">
                     <h3 class="panel-title">Live Preview</h3>
                     <div class="share-preview">
-                        <div class="share-buttons" id="preview-buttons"></div>
+                        <div class="share-buttons" id="preview-buttons">
+                           </div>
                     </div>
                 </div>
             </div>
 
             <div class="code-output">
-                <h3 class="panel-title">Generated Code</h3>
-                <p style="margin-bottom: 1rem; color: var(--text-secondary);">Copy and paste this code just before the closing &lt;/body&gt; tag of your website:</p>
+                <h3 class="panel-title">Get Your Code</h3>
+                <p class="panel-subtitle">Copy and paste this code just before the closing &lt;/body&gt; tag of your website:</p>
                 <div class="code-block">
                     <button class="copy-button" id="copy-code-btn">Copy</button>
                     <code id="generated-code"></code>
+                    <div class="copy-success-message" id="copy-success">✅ Copied to clipboard!</div>
                 </div>
-                <div class="success-message" id="copy-success">✅ Code copied to clipboard!</div>
             </div>
         </div>
     </main>
