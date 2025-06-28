@@ -3,14 +3,46 @@
 document.addEventListener('DOMContentLoaded', () => {
     // --- CONFIGURATION ---
     const platformConfig = {
-        facebook: { label: 'Facebook', colorIcon: 'https://ik.imagekit.io/dee7studio/Icons/Facebook.svg?updatedAt=1751101326689', blackIcon: 'https://ik.imagekit.io/dee7studio/Icons/Facebook_black.svg?updatedAt=1751101326631' },
-        x: { label: 'X', colorIcon: 'https://ik.imagekit.io/dee7studio/Icons/X.svg?updatedAt=1751101329412', blackIcon: 'https://ik.imagekit.io/dee7studio/Icons/X_black.svg?updatedAt=1751101329529' },
-        linkedin: { label: 'LinkedIn', colorIcon: 'https://ik.imagekit.io/dee7studio/Icons/LinkedIn.svg?updatedAt=1751101326668', blackIcon: 'https://ik.imagekit.io/dee7studio/Icons/LinkedIn_Black.svg?updatedAt=1751101326659' },
-        pinterest: { label: 'Pinterest', colorIcon: 'https://ik.imagekit.io/dee7studio/Icons/Pinterest.svg?updatedAt=1751101326628', blackIcon: 'https://ik.imagekit.io/dee7studio/Icons/Pinterest_Black.svg?updatedAt=1751101326649' },
-        reddit: { label: 'Reddit', colorIcon: 'https://ik.imagekit.io/dee7studio/Icons/Reddit.svg?updatedAt=1751102199116', blackIcon: 'https://ik.imagekit.io/dee7studio/Icons/Reddit_Black.svg?updatedAt=1751102199078' },
-        tiktok: { label: 'TikTok', colorIcon: 'https://ik.imagekit.io/dee7studio/Icons/Tok%20Tok.svg?updatedAt=1751101326673', blackIcon: 'https://ik.imagekit.io/dee7studio/Icons/Tok%20Tok_Black.svg?updatedAt=1751101326653' },
-        instagram: { label: 'Instagram', colorIcon: 'https://ik.imagekit.io/dee7studio/Icons/Instagram.svg?updatedAt=1751100484264', blackIcon: 'https://ik.imagekit.io/dee7studio/Icons/Instagram_black.svg?updatedAt=1751100510415' },
-        copy: { label: 'Copy Link', colorIcon: 'https://ik.imagekit.io/dee7studio/Icons/Copy%20Link.svg?updatedAt=1751101326655', blackIcon: 'https://ik.imagekit.io/dee7studio/Icons/Copy%20Link_black.svg?updatedAt=1751101326620' }
+        facebook: { 
+            label: 'Facebook', 
+            colorIcon: 'https://ik.imagekit.io/dee7studio/Icons/Facebook.svg?updatedAt=1751101326689', 
+            blackIcon: 'https://ik.imagekit.io/dee7studio/Icons/Facebook_black.svg?updatedAt=1751101326631' 
+        },
+        x: { 
+            label: 'X', 
+            colorIcon: 'https://ik.imagekit.io/dee7studio/Icons/X.svg?updatedAt=1751101329412', 
+            blackIcon: 'https://ik.imagekit.io/dee7studio/Icons/X_black.svg?updatedAt=1751101329529' 
+        },
+        linkedin: { 
+            label: 'LinkedIn', 
+            colorIcon: 'https://ik.imagekit.io/dee7studio/Icons/LinkedIn.svg?updatedAt=1751101326668', 
+            blackIcon: 'https://ik.imagekit.io/dee7studio/Icons/LinkedIn_Black.svg?updatedAt=1751101326659' 
+        },
+        pinterest: { 
+            label: 'Pinterest', 
+            colorIcon: 'https://ik.imagekit.io/dee7studio/Icons/Pinterest.svg?updatedAt=1751101326628', 
+            blackIcon: 'https://ik.imagekit.io/dee7studio/Icons/Pinterest_Black.svg?updatedAt=1751101326649' 
+        },
+        reddit: { 
+            label: 'Reddit', 
+            colorIcon: 'https://ik.imagekit.io/dee7studio/Icons/Reddit.svg?updatedAt=1751102199116', 
+            blackIcon: 'https://ik.imagekit.io/dee7studio/Icons/Reddit_Black.svg?updatedAt=1751102199078' 
+        },
+        tiktok: { 
+            label: 'TikTok', 
+            colorIcon: 'https://ik.imagekit.io/dee7studio/Icons/Tok%20Tok.svg?updatedAt=1751101326673', 
+            blackIcon: 'https://ik.imagekit.io/dee7studio/Icons/Tok%20Tok_Black.svg?updatedAt=1751101326653' 
+        },
+        instagram: { 
+            label: 'Instagram', 
+            colorIcon: 'https://ik.imagekit.io/dee7studio/Icons/Instagram.svg?updatedAt=1751100484264', 
+            blackIcon: 'https://ik.imagekit.io/dee7studio/Icons/Instagram_black.svg?updatedAt=1751100510415' 
+        },
+        copy: { 
+            label: 'Copy Link', 
+            colorIcon: 'https://ik.imagekit.io/dee7studio/Icons/Copy%20Link.svg?updatedAt=1751101326655', 
+            blackIcon: 'https://ik.imagekit.io/dee7studio/Icons/Copy%20Link_black.svg?updatedAt=1751101326620' 
+        }
     };
 
     // --- ELEMENT SELECTORS ---
@@ -43,7 +75,14 @@ document.addEventListener('DOMContentLoaded', () => {
      */
     function toggleTheme() {
         const currentTheme = localStorage.getItem('theme') || 'light';
-        setTheme(currentTheme === 'dark' ? 'light' : 'dark');
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        setTheme(newTheme);
+        
+        // Add visual feedback
+        themeToggleButton.style.transform = 'scale(0.9)';
+        setTimeout(() => {
+            themeToggleButton.style.transform = '';
+        }, 150);
     }
 
     /**
@@ -51,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
      */
     function loadInitialTheme() {
         const savedTheme = localStorage.getItem('theme');
-        // If there's a saved theme, use it. Otherwise, default to light.
+        // Always default to light theme if no saved preference
         setTheme(savedTheme || 'light');
     }
 
@@ -114,6 +153,7 @@ document.addEventListener('DOMContentLoaded', () => {
     data-size="${size}"
     data-position="${position}"
     defer><\/script>`;
+            
             generatedCodeEl.textContent = code.trim();
 
         } catch (error) {
@@ -126,5 +166,104 @@ document.addEventListener('DOMContentLoaded', () => {
      * Copies the generated code to the clipboard with visual feedback.
      */
     async function copyCode() {
-        const codeToCopy = generatedCodeEl.textContent;
-        if (!codeToCopy || codeToCopy.startsWith('
+        try {
+            const codeToCopy = generatedCodeEl.textContent;
+            
+            if (!codeToCopy || codeToCopy.trim() === '') {
+                return;
+            }
+
+            // Try modern clipboard API first
+            if (navigator.clipboard && window.isSecureContext) {
+                await navigator.clipboard.writeText(codeToCopy);
+            } else {
+                // Fallback for older browsers
+                const textArea = document.createElement('textarea');
+                textArea.value = codeToCopy;
+                textArea.style.position = 'fixed';
+                textArea.style.left = '-999999px';
+                textArea.style.top = '-999999px';
+                document.body.appendChild(textArea);
+                textArea.focus();
+                textArea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textArea);
+            }
+            
+            // Visual feedback
+            const originalText = copyCodeButton.textContent;
+            const originalBg = copyCodeButton.style.backgroundColor;
+            
+            copyCodeButton.textContent = 'Copied!';
+            copyCodeButton.style.backgroundColor = '#28a745';
+            
+            // Show success message
+            copySuccessEl.classList.add('show');
+            
+            setTimeout(() => {
+                copyCodeButton.textContent = originalText;
+                copyCodeButton.style.backgroundColor = originalBg;
+                copySuccessEl.classList.remove('show');
+            }, 2000);
+            
+        } catch (err) {
+            console.error('Failed to copy: ', err);
+            
+            // Show error feedback
+            const originalText = copyCodeButton.textContent;
+            copyCodeButton.textContent = 'Error!';
+            copyCodeButton.style.backgroundColor = '#dc3545';
+            
+            setTimeout(() => {
+                copyCodeButton.textContent = originalText;
+                copyCodeButton.style.backgroundColor = '';
+            }, 2000);
+        }
+    }
+
+    /**
+     * Handles form validation and provides user feedback.
+     */
+    function validateForm() {
+        const checkedPlatforms = document.querySelectorAll('input[type="checkbox"]:checked');
+        const configPanel = document.querySelector('.config-panel');
+        
+        if (checkedPlatforms.length === 0) {
+            configPanel.style.borderColor = '#ef4444';
+            setTimeout(() => {
+                configPanel.style.borderColor = '';
+            }, 2000);
+        }
+    }
+
+    /**
+     * Initializes the application.
+     */
+    function init() {
+        try {
+            // Set up event listeners
+            themeToggleButton.addEventListener('click', toggleTheme);
+            copyCodeButton.addEventListener('click', copyCode);
+            
+            configControls.forEach(control => {
+                control.addEventListener('change', () => {
+                    updatePreview();
+                    validateForm();
+                });
+            });
+
+            // Set dynamic content and initial state
+            currentYearEl.textContent = new Date().getFullYear();
+            loadInitialTheme(); // This will default to light theme
+            updatePreview();
+            
+            console.log('Share Studio initialized successfully');
+            
+        } catch (error) {
+            console.error('Initialization error:', error);
+        }
+    }
+
+    // Initialize the application
+    init();
+});
