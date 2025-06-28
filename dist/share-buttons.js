@@ -1,10 +1,10 @@
 /**
- * Share Studio - Social Media Share Buttons Widget
+ * Share Studio V 1.05 - Social Media Share Buttons Widget
  * 
  * A lightweight, customizable social media share buttons widget that works
  * by extracting page metadata (title, description, og tags) for optimal sharing.
  * 
- * @version 1.0.0
+ * @version 1.05
  * @author Dee7 Studio (https://dee7studio.com)
  * @repository https://github.com/DrEEjc7/share-studio
  * @license MIT
